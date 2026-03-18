@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Translator Morse - Garda Bijak Sana</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            scroll-behavior: smooth;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            border: 2px solid #00ff00;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            background: #464242;
+        }
+        h2 { text-align: center; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #00ff00; padding-bottom: 10px; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: #111;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 15px;
+            font-size: 1.1rem;
+            resize: none;
+            box-sizing: border-box;
+        }
+        .label { margin-bottom: 8px; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+        
+        .btn-group { margin-top: 15px; display: flex; gap: 10px; }
+        button {
+            background: #00ff00;
+            color: #677577;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        button:hover { background: #fff; }
+
+        /* Tabel Referensi */
+        .info-section {
+            margin-top: 50px;
+            width: 100%;
+            max-width: 900px;
+            border-top: 1px solid #004400;
+            padding-top: 20px;
+        }
+        .info-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-decoration: underline;
+        }
+        .dictionary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+        .dict-item {
+            background: #111;
+            padding: 10px;
+            border: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+        }
+        .dict-char { color: #fff; font-weight: bold; }
+
+        /* Profil & Detail Edukasi */
+        .profile-card {
+            margin-top: 50px;
+            width: 100%;
+            max-width: 900px;
+            background: #423e3e;
+            border: 1px double #00ff00;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .about-morse {
+            line-height: 1.6;
+            color: #cccccc;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+        .creator-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #00ff00;
+        }
+        .creator-link {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px solid #00ff00;
+        }
+        .creator-link:hover {
+            color: #fff;
+            background: #004400;
+        }
+
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>TRANSLATOR KODE MORSE PRO</h2>
+    
+    <div class="grid">
+        <div>
+            <div class="label">Input (Teks / Morse)</div>
+            <textarea id="inputArea" placeholder="Ketik pesan atau kode morse..."></textarea>
+        </div>
+        <div>
+            <div class="label">Hasil Terjemahan</div>
+            <textarea id="outputArea" readonly placeholder="Output otomatis..."></textarea>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button onclick="copyOutput()">Salin Hasil</button>
+        <button onclick="resetAll()" style="background: #aa0000; color: white;">Reset</button>
+    </div>
+</div>
+
+<div class="info-section">
+    <div class="info-title">PANDUAN KODE MORSE</div>
+    <div class="dictionary-grid" id="dictionaryTable"></div>
+</div>
+
+<div class="profile-card">
+    <div class="info-title">TENTANG KODE MORSE</div>
+    <div class="about-morse">
+        <p>
+            <strong>Kode Morse</strong> adalah metode komunikasi yang digunakan untuk mengirimkan informasi tekstual melalui rangkaian denyut listrik, cahaya, atau bunyi. Karakter dalam kode ini direpresentasikan menggunakan kombinasi titik (dot) yang pendek dan garis (dash) yang panjang.
+        </p>
+        <p>
+            <strong>Sejarah & Penerbitan:</strong> Kode ini dikembangkan oleh <strong>Samuel F.B. Morse</strong> dan <strong>Alfred Vail</strong> pada awal tahun 1830-an. Penggunaan secara komersial pertama kali diterbitkan dan dipatenkan pada tahun <strong>1837</strong> untuk sistem telegraf elektrik. Pada tahun <strong>1844</strong>, pesan pertama "What hath God wrought" dikirimkan secara resmi dari Washington ke Baltimore, menandai era baru telekomunikasi dunia.
+        </p>
+    </div>
+
+    <div class="creator-info">
+        <p><strong>Nama Pembuat:</strong> 
+            <a href="#" class="creator-link">Garda</a> (Klik untuk masuk ke Forum Pembuat)
+        </p>
+        <p><strong>Hubungi Gmail:</strong> <span style="color: #fff;">akundilapthop794@gmail.com</span></p>
+        <p style="font-size: 0.8rem; font-style: italic; color: #666;">
+            Silakan hubungi email di atas untuk informasi lebih lanjut mengenai hak akses dan penggunaan situs ini.
+        </p>
+    </div>
+</div>
+
+<script>
+    const dictionary = {
+        'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+        'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+        'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+        'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+        'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+        '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+        '9': '----.', '0': '-----', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+        '!': '-.-.--', '/': '-..-.', ' ': '/'
+    };
+
+    const reverseDictionary = {};
+    const tableEl = document.getElementById('dictionaryTable');
+
+    for (const key in dictionary) {
+        reverseDictionary[dictionary[key]] = key;
+        if (key !== ' ') {
+            const div = document.createElement('div');
+            div.className = 'dict-item';
+            div.innerHTML = `<span class="dict-char">${key}</span> <span style="color: #00ff00;">${dictionary[key]}</span>`;
+            tableEl.appendChild(div);
+        }
+    }
+
+    const inputArea = document.getElementById('inputArea');
+    const outputArea = document.getElementById('outputArea');
+
+    inputArea.addEventListener('input', () => {
+        const input = inputArea.value.trim();
+        if (!input) { outputArea.value = ""; return; }
+        const isMorse = /^[\.\-\/\s]+$/.test(input);
+        if (isMorse) {
+            const words = input.split('/');
+            outputArea.value = words.map(word => {
+                return word.trim().split(/\s+/).map(m => reverseDictionary[m] || '?').join('');
+            }).join(' ');
+        } else {
+            outputArea.value = input.toUpperCase().split('').map(char => {
+                return dictionary[char] || '[?]';
+            }).join(' ');
+        }
+    });
+
+    function resetAll() {
+        inputArea.value = "";
+        outputArea.value = "";
+    }
+
+    function copyOutput() {
+        outputArea.select();
+        document.execCommand('copy');
+        alert("Terjemahan disalin!");
+    }
+</script>
+
+</body>
+</html>
